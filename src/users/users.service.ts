@@ -20,7 +20,7 @@ export class UsersService {
 
   async findByBiometricKey(biometricKey: string) {
     return this.prisma.user.findUnique({
-      where: { biometricKey },
+      where: { biometricKey},
     });
   }
 

@@ -1,99 +1,276 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS GraphQL Authentication API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project implements a RESTful API service using NestJS with TypeScript that supports user authentication (standard and biometric), registration, and utilizes Prisma as the ORM. The API is exposed through GraphQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- User registration with email and password
+- Standard login with email and password
+- Biometric login with a biometricKey
+- JWT-based authentication
+- GraphQL API
+- Prisma ORM with PostgreSQL
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Project setup
+- Node.js (v16 or later)
+- Docker and Docker Compose
+- npm or yarn
+
+## Setup and Installation
+
+### 1. Clone the repository
 
 ```bash
-$ npm install
+git clone <>
+cd biometric-
 ```
 
-## Compile and run the project
+### 2. Environment variables
+
+Copy the example env file and update it with your settings:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
 
-## Run tests
+### 3. Start PostgreSQL database
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up -d
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 4. Install dependencies
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Generate Prisma client and run migrations
 
-## Resources
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 6. Start the application
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npm run start:dev
+```
 
-## Support
+The GraphQL playground will be available at `http://localhost:3000/graphql`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Database Schema
 
-## Stay in touch
+The database schema is defined in the `prisma/schema.prisma` file:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```prisma
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String
+  biometricKey  String?  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+```
 
-## License
+## Authentication Flow
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Registration
+
+1. User submits email and password through the `register` mutation
+2. Password is hashed using bcrypt
+3. User is created in the database
+4. JWT token is generated and returned with the user data
+
+### Standard Login
+
+1. User submits email and password through the `login` mutation
+2. System finds the user by email
+3. Password is verified against the stored hash
+4. JWT token is generated and returned with the user data
+
+### Biometric Login
+
+1. User submits biometricKey through the `biometricLogin` mutation
+2. System finds the user by biometricKey
+3. JWT token is generated and returned with the user data
+
+### Adding a Biometric Key
+
+1. Authenticated user submits a biometricKey through the `addBiometricKey` mutation
+2. System checks if the biometricKey is already in use
+3. User record is updated with the biometricKey
+4. JWT token is regenerated and returned with the updated user data
+
+## GraphQL Schema
+
+### Types
+
+```graphql
+type User {
+  id: ID!
+  email: String!
+  biometricKey: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+```
+
+### Inputs
+
+```graphql
+input RegisterInput {
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input BiometricLoginInput {
+  biometricKey: String!
+}
+```
+
+### Queries
+
+```graphql
+type Query {
+  me: User!
+}
+```
+
+### Mutations
+
+```graphql
+type Mutation {
+  register(registerInput: RegisterInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
+  biometricLogin(biometricLoginInput: BiometricLoginInput!): AuthResponse!
+  addBiometricKey(biometricKey: String!): AuthResponse!
+}
+```
+
+## Testing
+
+Run the unit tests:
+
+```bash
+npm test
+```
+
+Run the tests with coverage:
+
+```bash
+npm run test:cov
+```
+
+## GraphQL Sample Queries
+
+### Register
+
+```graphql
+mutation Register {
+  register(registerInput: { email: "user@example.com", password: "password123" }) {
+    token
+    user {
+      id
+      email
+      createdAt
+    }
+  }
+}
+```
+
+### Login
+
+```graphql
+mutation Login {
+  login(loginInput: { email: "user@example.com", password: "password123" }) {
+    token
+    user {
+      id
+      email
+    }
+  }
+}
+```
+
+### Biometric Login
+
+```graphql
+mutation BiometricLogin {
+  biometricLogin(biometricLoginInput: { biometricKey: "user-biometric-key" }) {
+    token
+    user {
+      id
+      email
+    }
+  }
+}
+```
+
+### Add Biometric Key
+
+```graphql
+mutation AddBiometricKey {
+  addBiometricKey(biometricKey: "user-biometric-key") {
+    token
+    user {
+      id
+      email
+      biometricKey
+    }
+  }
+}
+```
+
+### Get Current User
+
+```graphql
+query GetMe {
+  me {
+    id
+    email
+    biometricKey
+    createdAt
+    updatedAt
+  }
+}
+```
+
+## Security Considerations
+
+- Passwords are hashed using bcrypt
+- Authentication is implemented using JWT tokens
+- Biometric keys are stored as unique values in the database
+- GraphQL endpoints are protected using JWT authentication guards
+- Validation is performed on all inputs using class-validator
+
+## Project Structure
+
+```
+nestjs-auth-api/
+├── src/
+│   ├── app.module.ts          # Main application module
+│   ├── main.ts                # Application entry point
+│   ├── prisma/                # Prisma ORM setup
+│   ├── auth/                  # Authentication module
+│   ├── users/                 # Users module
+│   └── common/                # Shared utilities
+├── test/                      # Unit tests
+├── prisma/                    # Prisma schema and migrations
+├── docker-compose.yml         # Docker setup for PostgreSQL
+├── .env.example               # Example environment variables
+└── package.json               # Project dependencies
+```

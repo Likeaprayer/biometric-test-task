@@ -5,7 +5,7 @@ import { CreateAuthInput,  LoginInput } from './dto/create-auth.input';
 import { BiometricLoginInput } from './dto/create-auth.input'
 import { AuthResponse } from './entities/auth.entity';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../common/guard/jwt.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Resolver()

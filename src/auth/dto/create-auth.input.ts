@@ -9,7 +9,7 @@ export class CreateAuthInput {
     email: string;
   
     @Field()
-    @MinLength(8)
+    @MinLength(7)
     password: string;
 }
 
@@ -20,7 +20,7 @@ export class LoginInput {
   email: string;
 
   @Field()
-  @MinLength(8)
+  @MinLength(7)
   password: string;
 }
 

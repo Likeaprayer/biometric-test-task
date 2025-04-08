@@ -1,11 +1,9 @@
 import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { RegisterInput } from './dto/register.input';
-import { LoginInput } from './dto/login.input';
-import { BiometricLoginInput } from './dto/biometric-login.input';
+import { CreateAuthInput, LoginInput, BiometricLoginInput } from './dto/create-auth.input';
 import * as bcrypt from 'bcrypt';
-import { AuthResponse } from './entities/auth-response.entity';
+import { AuthResponse } from './entities/auth.entity';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(registerInput: RegisterInput): Promise<AuthResponse> {
+  async register(registerInput: CreateAuthInput): Promise<AuthResponse> {
     const { email, password } = registerInput;
     
     // Check if the user already exists
