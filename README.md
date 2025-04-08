@@ -13,7 +13,7 @@ This project implements a RESTful API service using NestJS with TypeScript that 
 
 ## Prerequisites
 
-- Node.js (v16 or later)
+- Node.js (v18 or later)
 - Docker and Docker Compose
 - npm or yarn
 
@@ -22,8 +22,8 @@ This project implements a RESTful API service using NestJS with TypeScript that 
 ### 1. Clone the repository
 
 ```bash
-git clone <>
-cd biometric-
+git clone https://github.com/Likeaprayer/biometric-test-task
+cd biometric-test-task
 ```
 
 ### 2. Environment variables
@@ -67,7 +67,7 @@ The database schema is defined in the `prisma/schema.prisma` file:
 
 ```prisma
 model User {
-  id            String   @id @default(uuid())
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email         String   @unique
   password      String
   biometricKey  String?  @unique
@@ -105,61 +105,6 @@ model User {
 3. User record is updated with the biometricKey
 4. JWT token is regenerated and returned with the updated user data
 
-## GraphQL Schema
-
-### Types
-
-```graphql
-type User {
-  id: ID!
-  email: String!
-  biometricKey: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type AuthResponse {
-  token: String!
-  user: User!
-}
-```
-
-### Inputs
-
-```graphql
-input RegisterInput {
-  email: String!
-  password: String!
-}
-
-input LoginInput {
-  email: String!
-  password: String!
-}
-
-input BiometricLoginInput {
-  biometricKey: String!
-}
-```
-
-### Queries
-
-```graphql
-type Query {
-  me: User!
-}
-```
-
-### Mutations
-
-```graphql
-type Mutation {
-  register(registerInput: RegisterInput!): AuthResponse!
-  login(loginInput: LoginInput!): AuthResponse!
-  biometricLogin(biometricLoginInput: BiometricLoginInput!): AuthResponse!
-  addBiometricKey(biometricKey: String!): AuthResponse!
-}
-```
 
 ## Testing
 
@@ -175,79 +120,7 @@ Run the tests with coverage:
 npm run test:cov
 ```
 
-## GraphQL Sample Queries
-
-### Register
-
-```graphql
-mutation Register {
-  register(registerInput: { email: "user@example.com", password: "password123" }) {
-    token
-    user {
-      id
-      email
-      createdAt
-    }
-  }
-}
-```
-
-### Login
-
-```graphql
-mutation Login {
-  login(loginInput: { email: "user@example.com", password: "password123" }) {
-    token
-    user {
-      id
-      email
-    }
-  }
-}
-```
-
-### Biometric Login
-
-```graphql
-mutation BiometricLogin {
-  biometricLogin(biometricLoginInput: { biometricKey: "user-biometric-key" }) {
-    token
-    user {
-      id
-      email
-    }
-  }
-}
-```
-
-### Add Biometric Key
-
-```graphql
-mutation AddBiometricKey {
-  addBiometricKey(biometricKey: "user-biometric-key") {
-    token
-    user {
-      id
-      email
-      biometricKey
-    }
-  }
-}
-```
-
-### Get Current User
-
-```graphql
-query GetMe {
-  me {
-    id
-    email
-    biometricKey
-    createdAt
-    updatedAt
-  }
-}
-```
+A schema.qraphql file is also available at the root of the project for Introspection
 
 ## Security Considerations
 
@@ -256,21 +129,3 @@ query GetMe {
 - Biometric keys are stored as unique values in the database
 - GraphQL endpoints are protected using JWT authentication guards
 - Validation is performed on all inputs using class-validator
-
-## Project Structure
-
-```
-nestjs-auth-api/
-├── src/
-│   ├── app.module.ts          # Main application module
-│   ├── main.ts                # Application entry point
-│   ├── prisma/                # Prisma ORM setup
-│   ├── auth/                  # Authentication module
-│   ├── users/                 # Users module
-│   └── common/                # Shared utilities
-├── test/                      # Unit tests
-├── prisma/                    # Prisma schema and migrations
-├── docker-compose.yml         # Docker setup for PostgreSQL
-├── .env.example               # Example environment variables
-└── package.json               # Project dependencies
-```
